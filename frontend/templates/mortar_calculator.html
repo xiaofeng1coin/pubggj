@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易迫击炮距离计算器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mortar_calculator.css') }}">
+</head>
+<body>
+    <div class="background-effects"></div>
+    <a href="/" class="back-link">← 返回首页</a>
+
+    <div class="container">
+        <header class="tool-header">
+            <h1>简易迫击炮距离计算器</h1>
+            <p>根据像素坐标，精确计算游戏内距离</p>
+        </header>
+
+        <!-- <<<< 关键修改：更新使用说明，使其清晰准确 >>>> -->
+        <div class="usage-notes">
+            <h3>使用说明 (基于1920x1080分辨率截图)</h3>
+            <p><strong>8x8 地图 (艾伦格, 米拉玛等):</strong> 请将游戏内地图放大到 <strong>最大(第5档)</strong> 后截图。此缩放级别下，<strong>100米</strong> 对应约 <strong>220像素</strong>。</p>
+            <p><strong>4x4 地图 (萨诺):</strong> 请将游戏内地图放大到 <strong>第3档</strong> 后截图。此缩放级别下，<strong>100米</strong> 对应约 <strong>110像素</strong>。</p>
+            <p><strong>3x3 地图 (帕拉莫):</strong> 请将游戏内地图放大到 <strong>第3档</strong> 后截图。此缩放级别下，<strong>100米</strong> 对应约 <strong>140像素</strong>。</p>
+        </div>
+
+        <div class="controls-panel">
+            <div class="map-controls">
+                <label for="map-selector">选择地图:</label>
+                <!-- 下拉框的显示逻辑无需修改，它会自动从后端获取正确的 "每小格100米" -->
+                <select id="map-selector">
+                    {% for map_name, spec in maps.items() %}
+                    <option value="{{ map_name }}">{{ spec.display_name }} ({{ spec.dimensions }}, 每小格{{ spec.grid_size_m }}米)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-panel">
+                    <div class="panel-header"><span class="panel-icon player-icon"></span><h2>我方像素坐标</h2></div>
+                    <div class="form-group"><label for="player-x">Pixel X</label><input type="number" id="player-x" placeholder="手动输入X坐标"></div>
+                    <div class="form-group"><label for="player-y">Pixel Y</label><input type="number" id="player-y" placeholder="手动输入Y坐标"></div>
+                </div>
+
+                <div class="input-panel">
+                    <div class="panel-header"><span class="panel-icon target-icon"></span><h2>目标像素坐标</h2></div>
+                    <div class="form-group"><label for="target-x">Pixel X</label><input type="number" id="target-x" placeholder="手动输入X坐标"></div>
+                    <div class="form-group"><label for="target-y">Pixel Y</label><input type="number" id="target-y" placeholder="手动输入Y坐标"></div>
+                </div>
+            </div>
+
+            <button id="calculate-btn" class="btn-primary"><span class="btn-text">计算距离</span></button>
+
+            <div class="result-panel">
+                <div class="panel-header"><span class="panel-icon result-icon"></span><h2>计算结果</h2></div>
+                <div class="result-item">
+                    <span class="result-label">水平距离 (米)</span>
+                    <span class="result-value" id="distance-result">---</span>
+                </div>
+                <div class="error-message" id="error-message"></div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/mortar_calculator.js') }}"></script>
+</body>
+</html>

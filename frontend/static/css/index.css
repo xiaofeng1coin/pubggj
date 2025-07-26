@@ -1,0 +1,328 @@
+/* --- Global Styles & Resets --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #0d1117;
+    --primary-glow: rgba(0, 191, 255, 0.5);
+    --secondary-glow: rgba(191, 0, 255, 0.4);
+    --text-color: #c9d1d9;
+    --text-muted: #8b949e;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --card-bg: rgba(22, 27, 34, 0.6);
+    --font-primary: 'Orbitron', 'Noto Sans SC', sans-serif;
+    --font-secondary: 'Noto Sans SC', sans-serif;
+}
+
+body {
+    font-family: var(--font-secondary);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* --- Background Effects --- */
+.background-effects {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.grid {
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: grid-pan 30s linear infinite;
+}
+
+@keyframes grid-pan {
+    from { background-position: 0 0; }
+    to { background-position: 40px 40px; }
+}
+
+.glow-sphere {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.8;
+}
+
+.sphere1 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary-glow);
+    top: -10%;
+    left: -10%;
+    animation: move-sphere1 20s ease-in-out infinite alternate;
+}
+
+.sphere2 {
+    width: 350px;
+    height: 350px;
+    background: var(--secondary-glow);
+    bottom: -15%;
+    right: -15%;
+    animation: move-sphere2 25s ease-in-out infinite alternate;
+}
+
+.sphere3 {
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 255, 135, 0.3);
+    top: 50%;
+    right: 20%;
+    animation: move-sphere3 15s ease-in-out infinite alternate;
+}
+
+@keyframes move-sphere1 {
+    to { transform: translate(100px, 150px); }
+}
+@keyframes move-sphere2 {
+    to { transform: translate(-150px, -100px); }
+}
+@keyframes move-sphere3 {
+    to { transform: translate(50px, -80px); }
+}
+
+/* --- Main Container & Header --- */
+.container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.main-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.logo h1 {
+    font-family: var(--font-primary);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+}
+
+.header-line {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, deepskyblue, transparent);
+    margin: 0 auto 1rem;
+    animation: pulse-line 3s infinite ease-in-out;
+}
+
+@keyframes pulse-line {
+    0%, 100% { opacity: 0.6; transform: scaleX(1); }
+    50% { opacity: 1; transform: scaleX(1.3); }
+}
+
+.main-header p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* --- Tool Cards --- */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.tool-card {
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    padding: 2px; /* For border gradient */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+}
+
+.tool-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background: conic-gradient(from 180deg at 50% 50%, var(--secondary-glow) 0deg, var(--primary-glow) 360deg);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: rotate 5s linear infinite;
+}
+
+.tool-card:hover .card-border {
+    opacity: 1;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.card-content {
+    background: #161b22; /* Slightly different from card bg for depth */
+    border-radius: 14px;
+    padding: 2rem;
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.tool-icon svg {
+    width: 32px;
+    height: 32px;
+    color: #fff;
+}
+
+.mortar-icon {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    box-shadow: 0 0 20px rgba(255, 126, 95, 0.5);
+}
+
+.map-icon {
+    background: linear-gradient(135deg, #00c6ff, #0072ff);
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.5);
+}
+
+.tool-card:hover .tool-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.tool-info {
+    flex-grow: 1;
+}
+
+.tool-info h2 {
+    font-family: var(--font-primary);
+    font-size: 1.6rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.tool-info .subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-family: var(--font-secondary);
+}
+
+.tool-info .description {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.card-footer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: deepskyblue;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.tool-card:hover .card-footer {
+    color: #fff;
+}
+
+.card-footer .arrow {
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover .arrow {
+    transform: translateX(8px);
+}
+
+/* --- Footer --- */
+.main-footer {
+    text-align: center;
+    padding-top: 4rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+}
+/* --- (2) Responsive Design Fixes --- */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+        display: block; /* Allow scrolling */
+        height: auto;
+    }
+    .container {
+        padding: 1rem;
+        width: 100%;
+    }
+    .tool-card {
+        /* On mobile, remove the hover-to-grow effect to prevent layout shifts */
+        transform: none !important;
+    }
+    .tool-card:hover {
+        transform: translateY(-5px) !important; /* Keep a smaller hover effect */
+    }
+}
+.stats-icon {
+    background: linear-gradient(135deg, #f0932b, #ffbe76);
+    box-shadow: 0 0 20px rgba(240, 147, 43, 0.5);
+}
+.stats-icon img {
+    filter: brightness(0) invert(1); /* 将SVG颜色变为白色 */
+}
